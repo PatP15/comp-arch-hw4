@@ -103,7 +103,7 @@ void softmax_vectorized(double *x, int size) {
 	    _mm256_storeu_pd(x+l, tmp);
     }
     for (;l<size;l++) {
-    	x[i]/=sumFinal;
+    	x[l]/=sumFinal;
     }
 
 }
@@ -120,7 +120,7 @@ void randVector(double* x)
 {
      // Initialize vector x with random values
     for (int i = 0; i < VECTOR_LENGTH; ++i) {
-        x[i] = (double)rand() / RAND_MAX;
+        x[i] = ((double)rand() / RAND_MAX);
     }
 }
 
@@ -132,8 +132,9 @@ int main() {
     randVector(x);
     for (int i = 0; i < VECTOR_LENGTH; ++i) {
         y[i] = x[i];
+        printf("%lf ", x[i]);
     }
-    
+    printf("\n");
     int repeats = 5;
     // Serial softmax computation
 
