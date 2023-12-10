@@ -3,7 +3,14 @@
 #include <math.h>
 #include <immintrin.h>
 #include <stdint.h>
-#define VECTOR_LENGTH 10
+#include <assert.h>
+#define VECTOR_LENGTH 50000
+#define EPSILON .01
+
+int EQUAL(double a, double b)
+{
+    return fabs(a - b) < EPSILON;
+}
 
 void softmax(double *x, int size) {
     double max_x = x[0];
@@ -59,47 +66,44 @@ void softmax_vectorized(double *x, int size) {
             max_x = x[i];
         }
     }
-
     __m256d sum = _mm256_set1_pd(0.0);
     __m256d max = _mm256_set1_pd(-max_x);
-    
     int i;
     for (i = 0; i <= size - 4; i += 4) {
     	__m256d arr = _mm256_load_pd(&x[i]);
-	__m256d expArr = _mm256_exp_pd(_mm256_add_pd(arr,max));
-	sum = _mm256_add_pd(expArr, sum);
+	    __m256d expArr = _mm256_exp_pd(_mm256_add_pd(arr,max));
+	    sum = _mm256_add_pd(expArr, sum);
     }
 
     //remaining
     double remaining = 0.0;
     for(; i<size; i++) {
-	x[i] = exp(x[i]-max_x);
-	remaining += x[i];
+        x[i] = exp(x[i]-max_x);
+        remaining += x[i];
     }
-    //printf("remaining sum: %lf\n", remaining);
+
     //get final sum
     double avx_result[4];
     _mm256_store_pd(avx_result, sum);
     double  sumFinal = 0.0;
     for (int j=0; j<4; j++) {
-	sumFinal += avx_result[j];
+	    sumFinal += avx_result[j];
     }
     sumFinal += remaining;
 
-    //printf("sum final: %lf\n", sumFinal);
-
-    __m256d invSum = _mm256_set1_pd(1.0/sumFinal);
-
+    double inv = 1.0/sumFinal;
+    __m256d invSum = _mm256_set1_pd(inv);
+   
     //store
-    for (i = 0; i<= size - 4; i+=4) {
-    	__m256d tmp = _mm256_load_pd(&x[i]);
+    int l;
+    for (l = 0; l<= size - 4; l+=4) {
+    	__m256d tmp = _mm256_load_pd(&x[l]);
         tmp = _mm256_exp_pd(_mm256_add_pd(tmp, max));
-	tmp = _mm256_mul_pd(invSum, tmp);
-	_mm256_store_pd(&x[i], tmp);	
+	    tmp = _mm256_mul_pd(invSum, tmp);
+	    _mm256_storeu_pd(x+l, tmp);
     }
-
-    for (;i<size;i++) {
-    	x[i]/=sumFinal;
+    for (;l<size;l++) {
+    	x[l]/=sumFinal;
     }
 
 }
@@ -116,7 +120,7 @@ void randVector(double* x)
 {
      // Initialize vector x with random values
     for (int i = 0; i < VECTOR_LENGTH; ++i) {
-        x[i] = (double)rand() / RAND_MAX;
+        x[i] = ((double)rand() / RAND_MAX);
     }
 }
 
@@ -127,17 +131,15 @@ int main() {
 
     randVector(x);
     for (int i = 0; i < VECTOR_LENGTH; ++i) {
+        y[i] = x[i];
         printf("%lf ", x[i]);
     }
     printf("\n");
-
-    
-    int repeats = 10;
+    int repeats = 5;
     // Serial softmax computation
 
     for(int i = 0; i < repeats; i++)
     {
-        randVector(x);
         uint64_t start = rdtsc();
         softmax(x, VECTOR_LENGTH);
         uint64_t end = rdtsc();
@@ -148,46 +150,16 @@ int main() {
    
     for(int i = 0; i < repeats; i++)
     {
-        randVector(y);
         uint64_t start = rdtsc();
         softmax_vectorized(y, VECTOR_LENGTH);
         uint64_t end = rdtsc();
         printf("Vector time taken: %lu cycles\n", end - start);
     }
    
-    
-    
-   /*
-    double *x = malloc(VECTOR_LENGTH * sizeof(double));
-    double *y = malloc(VECTOR_LENGTH * sizeof(double));
-
-    // Initialize vector x with random values
-    for (int i = 0; i < VECTOR_LENGTH; ++i) {
-        x[i] = (double)rand() / RAND_MAX;
-    	y[i] = x[i];
+    for (int j=0; j < VECTOR_LENGTH; j++) {
+        assert(EQUAL(y[j], x[j])> 0);
     }
 
-    for (int i = 0; i < VECTOR_LENGTH; ++i) {
-        printf("%lf ", x[i]);
-    }
-    printf("\n");
-
-    // Softmax computation
-    softmax(x, VECTOR_LENGTH);
-    softmax_vectorized(y, VECTOR_LENGTH);
-
-    for (int i = 0; i < VECTOR_LENGTH; ++i) {
-        printf("%lf ", x[i]);
-    }
-    printf("\n");
-
-    for (int i = 0; i < VECTOR_LENGTH; ++i) {
-	    printf("%lf ", y[i]);
-    }
-    printf("\n");
-
-    free(x);
-    free(y);*/
     free(x);
     free(y);
     return 0;
