@@ -132,7 +132,7 @@ int main() {
     printf("\n");
 
     
-    int repeats = 5;
+    int repeats = 10;
     // Serial softmax computation
 
     for(int i = 0; i < repeats; i++)
@@ -189,6 +189,6 @@ int main() {
     free(x);
     free(y);*/
     free(x);
-    //free(y);
+    free(y);
     return 0;
 }

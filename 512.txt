@@ -1,0 +1,37 @@
+The matrices are of shape 512 x 512
+
+Serialized
+Serial time taken: 969233638 cycles
+Serial time taken: 980568564 cycles
+Serial time taken: 1073671460 cycles
+Serial time taken: 982419007 cycles
+Serial time taken: 983066596 cycles
+Serial time taken: 1068970037 cycles
+Serial time taken: 977802914 cycles
+Serial time taken: 969523016 cycles
+Serial time taken: 969781722 cycles
+Serial time taken: 986756772 cycles
+
+Vectorized
+Vector time taken: 426797554 cycles
+Vector time taken: 309207978 cycles
+Vector time taken: 309770249 cycles
+Vector time taken: 312915991 cycles
+Vector time taken: 306416355 cycles
+Vector time taken: 308965147 cycles
+Vector time taken: 302683973 cycles
+Vector time taken: 336267828 cycles
+Vector time taken: 305092411 cycles
+Vector time taken: 306447831 cycles
+
+Vectorized w/ Transpose
+Vector time taken: 149894718 cycles
+Vector time taken: 137409976 cycles
+Vector time taken: 129838376 cycles
+Vector time taken: 133009414 cycles
+Vector time taken: 133487655 cycles
+Vector time taken: 138608092 cycles
+Vector time taken: 134331729 cycles
+Vector time taken: 137586303 cycles
+Vector time taken: 136210781 cycles
+Vector time taken: 138777197 cycles
