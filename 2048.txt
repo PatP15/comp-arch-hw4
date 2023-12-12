@@ -1,0 +1,37 @@
+The matrices are of shape 2048 x 2048
+
+Serialized
+Serial time taken: 63127851025 cycles
+Serial time taken: 66551269937 cycles
+Serial time taken: 59737677093 cycles
+Serial time taken: 66378725132 cycles
+Serial time taken: 59880301146 cycles
+Serial time taken: 66624486530 cycles
+Serial time taken: 59944906003 cycles
+Serial time taken: 66607541823 cycles
+Serial time taken: 59829887982 cycles
+Serial time taken: 65854154279 cycles
+
+Vectorized
+Vector time taken: 19264917982 cycles
+Vector time taken: 18190323875 cycles
+Vector time taken: 18195456421 cycles
+Vector time taken: 18351224107 cycles
+Vector time taken: 18447803126 cycles
+Vector time taken: 18365148243 cycles
+Vector time taken: 25683454623 cycles
+Vector time taken: 18377403074 cycles
+Vector time taken: 18146913758 cycles
+Vector time taken: 18018368588 cycles
+
+Vectorized w/ Transpose
+Vector time taken: 10766374385 cycles
+Vector time taken: 10499699220 cycles
+Vector time taken: 10494953844 cycles
+Vector time taken: 10524221969 cycles
+Vector time taken: 10632472060 cycles
+Vector time taken: 11859198915 cycles
+Vector time taken: 16167292253 cycles
+Vector time taken: 10385474701 cycles
+Vector time taken: 11049951482 cycles
+Vector time taken: 10651890831 cycles

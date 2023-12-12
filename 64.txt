@@ -1,0 +1,37 @@
+The matrices are of shape 64 x 64
+
+Serialized
+Serial time taken: 1376811 cycles
+Serial time taken: 737183 cycles
+Serial time taken: 662526 cycles
+Serial time taken: 2173196 cycles
+Serial time taken: 594179 cycles
+Serial time taken: 657317 cycles
+Serial time taken: 646588 cycles
+Serial time taken: 634587 cycles
+Serial time taken: 676802 cycles
+Serial time taken: 626051 cycles
+
+Vectorized
+Vector time taken: 343744 cycles
+Vector time taken: 234394 cycles
+Vector time taken: 249957 cycles
+Vector time taken: 217690 cycles
+Vector time taken: 217684 cycles
+Vector time taken: 217611 cycles
+Vector time taken: 278990 cycles
+Vector time taken: 234023 cycles
+Vector time taken: 265191 cycles
+Vector time taken: 234347 cycles
+
+Vectorized w/ Transpose
+Vector time taken: 363132 cycles
+Vector time taken: 249243 cycles
+Vector time taken: 314157 cycles
+Vector time taken: 314260 cycles
+Vector time taken: 422843 cycles
+Vector time taken: 350764 cycles
+Vector time taken: 306046 cycles
+Vector time taken: 353334 cycles
+Vector time taken: 312066 cycles
+Vector time taken: 250949 cycles
